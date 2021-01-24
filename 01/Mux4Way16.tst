@@ -47,3 +47,35 @@ output;
 set sel 3,
 eval,
 output;
+
+// set a %B1111111111111111,
+// set b 0,
+// set c 0,
+// set d 0,
+// set sel 0,
+// eval,
+// output;
+// 
+// set a 0,
+// set b %B1111111111111111,
+// set c 0,
+// set d 0,
+// set sel 1,
+// eval,
+// output;
+// 
+// set a 0,
+// set b 0,
+// set c %B1111111111111111,
+// set d 0,
+// set sel 2,
+// eval,
+// output;
+// 
+// set a 0,
+// set b 0,
+// set c 0,
+// set d %B1111111111111111,
+// set sel 3,
+// eval,
+// output;

@@ -1,0 +1,9 @@
+CHIP Or4Way {
+    IN input[4];
+    OUT output;
+
+    PARTS:
+    Or(a=input[0], b=input[1], out=tmp1);
+    Or(a=input[2], b=input[3], out=tmp2);
+    Or(a =tmp1, b=tmp2, out=output);
+}

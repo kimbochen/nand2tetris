@@ -1,0 +1,9 @@
+CHIP SumProd {
+    IN a1, b1, a2, b2;
+    OUT out;
+
+    PARTS:
+    Nand(a=a1, b=b1, out=prod1);
+    Nand(a=a2, b=b2, out=prod2);
+    Nand(a=prod1, b=prod2, out=out);
+}

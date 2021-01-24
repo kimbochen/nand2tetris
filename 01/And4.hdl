@@ -1,0 +1,10 @@
+CHIP And4 {
+    IN a[4], b[4];
+    OUT output[4];
+
+    PARTS:
+    And(a=a[0], b=b[0], out=output[0]);
+    And(a=a[1], b=b[1], out=output[1]);
+    And(a=a[2], b=b[2], out=output[2]);
+    And(a=a[3], b=b[3], out=output[3]);
+}
