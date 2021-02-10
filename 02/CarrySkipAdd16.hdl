@@ -1,0 +1,25 @@
+/*
+ * References:
+ * http://www.aoki.ecei.tohoku.ac.jp/arith/mg/algorithm.html#fsa_pfx
+ * https://www.ques10.com/p/40615/explain-carry-skip-adder-1/
+ */
+
+CHIP CarrySkipAdd16 {
+    IN a[16], b[16];
+    OUT out[16], c16;
+
+    PARTS:
+
+    /* 1-bit half adder */
+    HalfAdder(a=a[0], b=b[0], sum=out[0], carry=c1);
+
+    /* 2-bit adder */
+    Xor(a=a[1], b=b[1], out=p1); Xor(a=p1, b=c1, out=out[1]);
+    And(a=a[1], b=b[1], out=g1); And(a=p1, b=c1, out=p1c1); Or(a=g1, b=p1c1, out=c2);
+
+    Xor(a=a[2], b=b[2], out=p2); Xor(a=p2, b=c2, out=out[2]);
+    And(a=a[2], b=b[2], out=g2); And(a=p2, b=c2, out=p2c2); Or(a=g2, b=p2c2, out=skip3);
+
+    And(a=p1, b=p2, out=p1p2); And(a=p1p2, b=c1, out=p1p2c1); Or(a=skip3, b=p1p2c1, out=c3);
+
+}

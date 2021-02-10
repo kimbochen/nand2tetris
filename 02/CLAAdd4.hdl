@@ -1,6 +1,0 @@
-CHIP CLAAdd4 {
-    IN a[4], b[4], cin;
-    OUT sum[4], cout;
-
-    PARTS:
-}

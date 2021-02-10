@@ -1,0 +1,34 @@
+/*
+ * 4-bit Carry Look-ahead Adder
+ * 
+ * Formula:
+ * P[i] = a[i] XOR b[i]  (XOR is preferred over AND since P could be used to compute sum)
+ * G[i] = a[i] AND b[i]
+ * 
+ * Implementation:
+ * C[i] = G[i - 1] OR (P[i - 1] AND C[i - 1])
+ * sum[i] = P[i] XOR C[i]
+ * 
+ * Computation of carry is cascaded since it requires less gates than the 2-level logic equation
+ */
+
+CHIP Add4 {
+    IN a[4], b[4], c0;
+    OUT sum[4], c4;
+
+    PARTS:
+    Xor(a=a[0], b=b[0], out=p0); And(a=a[0], b=b[0], out=g0);
+    Xor(a=a[1], b=b[1], out=p1); And(a=a[1], b=b[1], out=g1);
+    Xor(a=a[2], b=b[2], out=p2); And(a=a[2], b=b[2], out=g2);
+    Xor(a=a[3], b=b[3], out=p3); And(a=a[3], b=b[3], out=g3);
+
+    And(a=p0, b=c0, out=p0c0); Or(a=g0, b=p0c0, out=c1);
+    And(a=p1, b=c1, out=p1c1); Or(a=g1, b=p1c1, out=c2);
+    And(a=p2, b=c2, out=p2c2); Or(a=g2, b=p2c2, out=c3);
+    And(a=p3, b=c3, out=p3c3); Or(a=g3, b=p3c3, out=c4);
+
+    Xor(a=p0, b=c0, out=sum[0]);
+    Xor(a=p1, b=c1, out=sum[1]);
+    Xor(a=p2, b=c2, out=sum[2]);
+    Xor(a=p3, b=c3, out=sum[3]);
+}

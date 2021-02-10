@@ -1,0 +1,18 @@
+/*
+ * 3-input Majority
+ * q = 1 when 2 of its inputs are 1
+ * q = 0 otherwise
+ */
+
+CHIP Majority {
+    IN a, b, c;
+    OUT q;
+
+    PARTS:
+    And(a=a, b=b, out=ab);
+    And(a=a, b=c, out=ac);
+    And(a=b, b=c, out=bc);
+
+    Or(a=ab, b=ac, out=abORac);
+    Or(a=abORac, b=bc, out=q);
+}

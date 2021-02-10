@@ -1,8 +1,0 @@
-CHIP Or3Way {
-    IN a, b, c;
-    OUT output;
-
-    PARTS:
-    Or(a=a, b=b, out=ab);
-    Or(a=ab, b=c, out=output);
-}
