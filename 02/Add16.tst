@@ -3,7 +3,7 @@
 // by Nisan and Schocken, MIT Press.
 // File name: projects/02/Add16.tst
 
-load Add16.hdl,
+load CarrySkipAdd16.hdl,
 output-file Add16.out,
 compare-to Add16.cmp,
 output-list a%B1.16.1 b%B1.16.1 out%B1.16.1;

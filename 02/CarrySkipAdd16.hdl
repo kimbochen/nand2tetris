@@ -9,17 +9,48 @@ CHIP CarrySkipAdd16 {
     OUT out[16], c16;
 
     PARTS:
-
     /* 1-bit half adder */
     HalfAdder(a=a[0], b=b[0], sum=out[0], carry=c1);
 
     /* 2-bit adder */
-    Xor(a=a[1], b=b[1], out=p1); Xor(a=p1, b=c1, out=out[1]);
-    And(a=a[1], b=b[1], out=g1); And(a=p1, b=c1, out=p1c1); Or(a=g1, b=p1c1, out=c2);
+    FullAdderProp(a=a[1], b=b[1], c=c1, sum=out[1], carry=c2, p=p1);
+    FullAdderProp(a=a[2], b=b[2], c=c2, sum=out[2], carry=Cr3, p=p2);
 
-    Xor(a=a[2], b=b[2], out=p2); Xor(a=p2, b=c2, out=out[2]);
-    And(a=a[2], b=b[2], out=g2); And(a=p2, b=c2, out=p2c2); Or(a=g2, b=p2c2, out=skip3);
+    And(a=p1, b=p2, out=p2p1);  /* Cr: Ripple carry, Cs: Skip carry */
+    And(a=p2p1, b=c1, out=Cs3); Or(a=Cr3, b=Cs3, out=c3);
 
-    And(a=p1, b=p2, out=p1p2); And(a=p1p2, b=c1, out=p1p2c1); Or(a=skip3, b=p1p2c1, out=c3);
+    /* 3-bit adder */
+    FullAdderProp(a=a[3], b=b[3], c=c3, sum=out[3], carry=c4, p=p3);
+    FullAdderProp(a=a[4], b=b[4], c=c4, sum=out[4], carry=c5, p=p4);
+    FullAdderProp(a=a[5], b=b[5], c=c5, sum=out[5], carry=Cr6, p=p5);
 
+    And(a=p4, b=p3, out=p4p3); And(a=p5, b=p4p3, out=p5p4p3);
+    And(a=p5p4p3, b=c3, out=Cs6); Or(a=Cr6, b=Cs6, out=c6);
+
+    /* 4-bit adder */
+    FullAdderProp(a=a[6], b=b[6], c=c6, sum=out[6], carry=c7, p=p6);
+    FullAdderProp(a=a[7], b=b[7], c=c7, sum=out[7], carry=c8, p=p7);
+    FullAdderProp(a=a[8], b=b[8], c=c8, sum=out[8], carry=c9, p=p8);
+    FullAdderProp(a=a[9], b=b[9], c=c9, sum=out[9], carry=Cr10, p=p9);
+
+    And(a=p7, b=p6, out=p7p6); And(a=p9, b=p8, out=p9p8); And(a=p9p8, b=p7p6, out=p9p8p7p6);
+    And(a=p9p8p7p6, b=c6, out=Cs10); Or(a=Cr10, b=Cs10, out=c10);
+
+    /* 3-bit adder */
+    FullAdderProp(a=a[10], b=b[10], c=c10, sum=out[10], carry=c11, p=p10);
+    FullAdderProp(a=a[11], b=b[11], c=c11, sum=out[11], carry=c12, p=p11);
+    FullAdderProp(a=a[12], b=b[12], c=c12, sum=out[12], carry=Cr13, p=p12);
+
+    And(a=p11, b=p10, out=p11p10); And(a=p12, b=p11p10, out=p12p11p10);
+    And(a=p12p11p10, b=c10, out=Cs13); Or(a=Cr13, b=Cs13, out=c13);
+
+    /* 2-bit adder */
+    FullAdderProp(a=a[13], b=b[13], c=c13, sum=out[13], carry=c14, p=p13);
+    FullAdderProp(a=a[14], b=b[14], c=c14, sum=out[14], carry=Cr15, p=p14);
+
+    And(a=p14, b=p13, out=p14p13);
+    And(a=p14p13, b=c13, out=Cs15); Or(a=Cr15, b=Cs15, out=c15);
+
+    /* 1-bit adder */
+    FullAdder(a=a[15], b=b[15], c=c15, sum=out[15], carry=c16);
 }

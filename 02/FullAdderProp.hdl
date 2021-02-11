@@ -1,0 +1,13 @@
+CHIP FullAdderProp {
+    IN a, b, c;
+    OUT sum, carry, p;
+
+    PARTS:
+    /* Full adder using half adder */
+    HalfAdder(a=a, b=b, sum=p0, carry=g0);
+    HalfAdder(a=c, b=p0, sum=sum, carry=g1);
+    Or(a=g0, b=g1, out=carry);
+
+    /* Since output cannot fan out, recompute p0 */
+    Xor(a=a, b=b, out=p);
+}
