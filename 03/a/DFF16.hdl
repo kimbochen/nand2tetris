@@ -1,0 +1,10 @@
+CHIP DFF16 {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+    DFF4(in=in[0..3], out=out[0..3]);
+    DFF4(in=in[4..7], out=out[4..7]);
+    DFF4(in=in[8..11], out=out[8..11]);
+    DFF4(in=in[12..15], out=out[12..15]);
+}

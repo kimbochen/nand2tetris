@@ -11,10 +11,28 @@
  * else                    out[t+1] = out[t]
  */
 
+/*
+ * Four actions are encoded as:
+ * Hold  00
+ * Reset 01
+ * Inc   10
+ * Load  11
+ */
+
 CHIP PC {
-    IN in[16],load,inc,reset;
+    IN in[16], load, inc, reset;
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Or(a=reset, b=load, out=act0);
+    Not(in=reset, out=nr); Or(a=load, b=inc, out=lORi); And(a=nr, b=lORi, out=act1);
+
+    Inc16(in=dout, out=incout);
+
+    Mux4Way16(
+        a=dout, b=false, c=incout, d=in,
+        sel[0]=act0, sel[1]=act1, out=data
+    );
+
+    DFF16(in=data, out=dout, out=out);
 }
