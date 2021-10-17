@@ -14,13 +14,26 @@ CHIP Mux16 {
     OUT out[16];
 
     PARTS:
-    Bus4(input=sel, output=sel4);
+    Not(in=sel, out=nsel);
 
-    Not(in=sel, out=notSel);
-    Bus4(input=notSel, output=notSel4);
-
-    SumProd4(a1=a[0..3], b1=notSel4, a2=b[0..3], b2=sel4, output=out[0..3]);
-    SumProd4(a1=a[4..7], b1=notSel4, a2=b[4..7], b2=sel4, output=out[4..7]);
-    SumProd4(a1=a[8..11], b1=notSel4, a2=b[8..11], b2=sel4, output=out[8..11]);
-    SumProd4(a1=a[12..15], b1=notSel4, a2=b[12..15], b2=sel4, output=out[12..15]);
+    SumProd4(
+        a1=a[0..3], b1[0]=nsel, b1[1]=nsel, b1[2]=nsel, b1[3]=nsel,
+        a2=b[0..3], b2[0]=sel, b2[1]=sel, b2[2]=sel, b2[3]=sel,
+        output[0]=out[0], output[1..3]=out[1..3]
+    );
+    SumProd4(
+        a1=a[4..7], b1[0]=nsel, b1[1]=nsel, b1[2]=nsel, b1[3]=nsel,
+        a2=b[4..7], b2[0]=sel, b2[1]=sel, b2[2]=sel, b2[3]=sel,
+        output=out[4..7]
+    );
+    SumProd4(
+        a1=a[8..11], b1[0]=nsel, b1[1]=nsel, b1[2]=nsel, b1[3]=nsel,
+        a2=b[8..11], b2[0]=sel, b2[1]=sel, b2[2]=sel, b2[3]=sel,
+        output=out[8..11]
+    );
+    SumProd4(
+        a1=a[12..15], b1[0]=nsel, b1[1]=nsel, b1[2]=nsel, b1[3]=nsel,
+        a2=b[12..15], b2[0]=sel, b2[1]=sel, b2[2]=sel, b2[3]=sel,
+        output=out[12..15]
+    );
 }
